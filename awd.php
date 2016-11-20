@@ -1,5 +1,5 @@
 <?php
-
+/* Ghazi Fadil Ramadhan */
 session_start();
 error_reporting(0);
 include 'models/Include.php';
