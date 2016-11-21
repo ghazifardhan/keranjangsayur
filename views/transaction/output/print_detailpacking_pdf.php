@@ -33,7 +33,7 @@ $num = $stmt->rowCount();
         border: 2px solid #00b050;
         text-align: left;
         padding: 8px;
-		background-color: #ffdd00;
+        background-color: #ffdd00;
     }
 	.test3 {
         border: 2px solid #00b050;

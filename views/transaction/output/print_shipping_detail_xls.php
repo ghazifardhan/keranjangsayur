@@ -100,6 +100,7 @@ if($num>0){
 </head>
 <body>
 	<div id="margin">
+            <h1 style="text-align: center;">Shipping Invoice</h1>
     <table>
 		<tr>
 			<td class="test2 t-center" style="background-color: #ffdd00;">ORDER</td>
