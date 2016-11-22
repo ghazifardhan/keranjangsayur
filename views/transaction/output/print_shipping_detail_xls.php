@@ -8,6 +8,10 @@ $stmt = $invoice->detailPacking();
 $stmt2 = $invoice->getShipping();
 $row2 = $stmt2->fetch(PDO::FETCH_OBJ);
 $num = $stmt->rowCount();
+$invDate = $invoice->invoiceDate;
+$invDateFormat = date('l, d F Y', strtotime($invDate));
+$shipDate = $row2->shipping;
+$shipDateFormat = date('l, d F Y', strtotime($shipDate));
 // Fungsi header dengan mengirimkan raw data excel
 header("Content-type: application/vnd-ms-excel");
  
@@ -104,11 +108,11 @@ if($num>0){
     <table>
 		<tr>
 			<td class="test2 t-center" style="background-color: #ffdd00;">ORDER</td>
-			<td class="test2 t-center" style="background-color: #ffdd00;"><?php echo $invoice->invoiceDate; ?></td>
+			<td class="test2 t-center" style="background-color: #ffdd00;"><?php echo $invDateFormat; ?></td>
 		</tr>
 		<tr>
 			<td class="test3 t-center" style="background-color: #ffaa00;">SHIPPING</td>
-			<td class="test3 t-center" style="background-color: #ffaa00;"><?php echo $row2->shipping; ?></td>
+			<td class="test3 t-center" style="background-color: #ffaa00;"><?php echo $shipDateFormat; ?></td>
 		</tr>
 	</table>
 	<br/>
@@ -126,7 +130,7 @@ if($num>0){
         <th class="t-center v-align">DIKALI</th>
     </tr>
     <?php
-    $invoice->invoiceDate = "2016-11-11";
+    //$invoice->invoiceDate = "2016-11-11";
     $stmtInvoice = $invoice->detailPacking();
     while ($rowInvoice = $stmtInvoice->fetch(PDO::FETCH_OBJ)){
     $transaction->transactionCode = $rowInvoice->invoice_code;
@@ -134,18 +138,20 @@ if($num>0){
     $num = $stmtTrans->rowCount();
     ?>
     <tr>
-        <td rowspan="<?php if($num < 4){ echo 5; } else {echo $num+2;} ?>" style="text-align: left; vertical-align: top;"><?php echo $rowInvoice->invoice_code;?></td>
-        <td rowspan="<?php if($num < 4){ echo 5; } else {echo $num+2;} ?>" style="text-align: left; vertical-align: top; width: 200px;">
+        <td rowspan="<?php if($num < 4){ echo 7; } else {echo $num+2;} ?>" style="text-align: left; vertical-align: top;"><?php echo $rowInvoice->invoice_code;?></td>
+        <td rowspan="<?php if($num < 4){ echo 7; } else {echo $num+2;} ?>" style="text-align: left; vertical-align: top; width: 200px;">
             <?php 
                 echo "<br/>";
                 echo $rowInvoice->customer_name . "<br/>";
                 echo $rowInvoice->customer_phone . "<br/>";
             ?>
         </td>
-        <td rowspan="<?php if($num < 4){ echo 5; } else {echo $num+2;} ?>" style="text-align: left; vertical-align: top;">
+        <td rowspan="<?php if($num < 4){ echo 7; } else {echo $num+2;} ?>" style="text-align: left; vertical-align: top;">
             <?php 
                 echo "<br/>";
                 echo $rowInvoice->customer_address . "<br/>";
+                echo $rowInvoice->customer_address_2 . "<br/>";
+                echo $rowInvoice->customer_address_3 . "<br/>";
                 echo "<font>" . $rowInvoice->description . "</font><br/>";
                 echo "<font>" . $rowInvoice->payment_method_name . "</font><br/>";
             ?>
@@ -167,7 +173,7 @@ if($num>0){
     <?php
         } 
         if($num <= 3){
-            $y = 3 - $num;
+            $y = 5 - $num;
             for($x=1;$x<=$y;$x++){
                 echo '<tr><td style="height: 22px;"></td><td style="height: 22px;"></td><td style="height: 22px;"></td><td style="height: 22px;"></td></tr>';
             }

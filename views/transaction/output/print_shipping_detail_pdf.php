@@ -8,6 +8,10 @@ $stmt = $invoice->detailPacking();
 $stmt2 = $invoice->getShipping();
 $row2 = $stmt2->fetch(PDO::FETCH_OBJ);
 $num = $stmt->rowCount();
+$invDate = $invoice->invoiceDate;
+$invDateFormat = date('l, d F Y', strtotime($invDate));
+$shipDate = $row2->shipping;
+$shipDateFormat = date('l, d F Y', strtotime($shipDate));
 if($num>0){
 ?>
 <!DOCTYPE html>
@@ -100,11 +104,11 @@ if($num>0){
 	<table>
 		<tr>
 			<td class="test2 t-center">ORDER</td>
-			<td class="test2 t-center"><?php echo $invoice->invoiceDate; ?></td>
+			<td class="test2 t-center"><?php echo $invDateFormat; ?></td>
 		</tr>
 		<tr>
 			<td class="test3 t-center">SHIPPING</td>
-			<td class="test3 t-center"><?php echo $row2->shipping; ?></td>
+			<td class="test3 t-center"><?php echo $shipDateFormat; ?></td>
 		</tr>
 	</table>
 	<br/>

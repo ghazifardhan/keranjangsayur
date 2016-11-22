@@ -78,6 +78,10 @@ $fetch = $stmt2->fetch(PDO::FETCH_OBJ);
         <td>: <?php echo $fetch->payment_method_name;?></td>
     </tr>
 	<tr>
+        <td>Invoice Date</td>
+        <td>: <?php echo $fetch->invoice_date;?></td>
+    </tr>
+	<tr>
         <td>Shipping Date</td>
         <td>: <?php echo $fetch->shipping_date;?></td>
     </tr>

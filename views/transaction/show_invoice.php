@@ -37,6 +37,7 @@ if($num>0){
             <th>Customer Phone</th>
             <th>Customer Address</th>
             <th>Total</th>
+            <th>Invoice Date</th>
             <th>Description</th>
             <th>Created At</th>
             <th>Option</th>
@@ -52,6 +53,7 @@ if($num>0){
             <td><?php echo $row->customer_phone; ?></td>
             <td><?php echo $row->customer_address; ?></td>
             <td><?php echo number_format($row->total,2,',','.'); ?></td>
+            <td><?php echo $row->invoice_date; ?></td>
             <td><?php echo $row->description; ?></td>
             <td><?php echo $row->created_at; ?></td>
             <td>

@@ -115,7 +115,6 @@ foreach ($month as $key => $value){
         <td><?php echo "'".$fetch->customer_phone;?></td>
     </tr>
     <tr>
-        
         <td style="text-align:left;vertical-align:top;width: 100px;" class="bold">Alamat</td>
         <td style="text-align:left;vertical-align:top;" class="bold">:</td>
         <td style="width: 300px;"><?php echo $fetch->customer_address;?></td>
@@ -128,7 +127,7 @@ foreach ($month as $key => $value){
     <tr>
         <td style="text-align:left;vertical-align:top;width: 100px;" class="bold"></td>
         <td style="text-align:left;vertical-align:top;" class="bold tdwidth2"></td>
-        <td style="width: 300px; font-weigth: bold;"><?php echo $fetch->customer_address_3;?></td>
+        <td style="width: 300px; font-weight: bold;"><?php echo $fetch->customer_address_3;?></td>
     </tr> 
     <tr>
         <td colspan="3" style="text-align: center; font-weight: bold; color: red; font-size: 16;"><?php echo $fetch->description;?></td>

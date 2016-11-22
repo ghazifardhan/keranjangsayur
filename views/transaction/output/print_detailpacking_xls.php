@@ -12,6 +12,10 @@ $row2 = $stmt2->fetch(PDO::FETCH_OBJ);
 
 $stmt = $transaction->detailPackingSplit();
 $num = $stmt->rowCount();
+$invDate = $invoice->invoiceDate;
+$invDateFormat = date('l, d F Y', strtotime($invDate));
+$shipDate = $row2->shipping;
+$shipDateFormat = date('l, d F Y', strtotime($shipDate));
 // Fungsi header dengan mengirimkan raw data excel
 header("Content-type: application/vnd-ms-excel");
  
@@ -97,11 +101,11 @@ header("Content-Disposition: attachment; filename=detail_packing_$invoice->invoi
 	<table>
 		<tr>
 			<td class="test2 t-align">ORDER</td>
-			<td class="test2 t-align"><?php echo $invoice->invoiceDate; ?></td>
+			<td class="test2 t-align"><?php echo $invDateFormat; ?></td>
 		</tr>
 		<tr>
 			<td class="test3 t-align">SHIPPING</td>
-			<td class="test3 t-align"><?php echo $row2->shipping; ?></td>
+			<td class="test3 t-align"><?php echo $shipDateFormat; ?></td>
 		</tr>
 	</table>
 	<br/>
