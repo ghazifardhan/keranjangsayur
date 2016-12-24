@@ -35,27 +35,30 @@ if($num>0){
             <th>Invoice Code</th>
             <th>Customer Name</th>
             <th>Customer Phone</th>
-            <th>Customer Address</th>
             <th>Total</th>
             <th>Invoice Date</th>
+            <th>Shipping Date</th>
             <th>Description</th>
-            <th>Created At</th>
             <th>Option</th>
         </tr>
         
         <?php
-        
+        $prevGroup = "";
         while ($row = $stmt->fetch(PDO::FETCH_OBJ)){
+        $group = $row->invoice_date;
+		if($group !== $prevGroup){
+			echo '<tr><td colspan="8" style="background-color: #84C126;"></tr>';
+			$prevGroup = $group;
+		}
         ?>
         <tr>
             <td><?php echo $row->invoice_code; ?></td>
             <td><?php echo $row->customer_name; ?></td>
             <td><?php echo $row->customer_phone; ?></td>
-            <td><?php echo $row->customer_address; ?></td>
             <td><?php echo number_format($row->total,2,',','.'); ?></td>
             <td><?php echo $row->invoice_date; ?></td>
+            <td><?php echo $row->shipping_date; ?></td>
             <td><?php echo $row->description; ?></td>
-            <td><?php echo $row->created_at; ?></td>
             <td>
 				<div class="invoiceId display-none"><?php echo $row->invoice_id; ?></div>
                 <div class="invoiceCode display-none"><?php echo $row->invoice_code; ?></div>
@@ -64,7 +67,7 @@ if($num>0){
 				<span class="caret"></span></button>
 					<ul class="dropdown-menu dropdown-menu-right">
 						<li><a href="javascript://" class="show-btn-invoice">Show Invoice</a></li>
-						<li class="<?php if($_SESSION['level'] == '1' || $_SESSION['level'] == '2'){ echo 'disabled';}?>"><a href="javascript://" class="edit-btn-invoice <?php if($_SESSION['level'] == '1' || $_SESSION['level'] == '2'){ echo 'not-active';}?>">Edit Invoice</a></li>
+						<li class="<?php if($_SESSION['level'] == '1' || $_SESSION['level'] == '2'){ echo 'disabled';}?>"><a href="javascript://" class="edit-btn-invoice <?php if($_SESSION['level'] == '1' || $_SESSION['level'] == '2'){ echo 'not-active';}?>">Edit Details</a></li>
 						<li class="<?php if($_SESSION['level'] == '1' || $_SESSION['level'] == '2'){ echo 'disabled';}?>"><a href="javascript://" class="delete-btn-invoice <?php if($_SESSION['level'] == '1' || $_SESSION['level'] == '2'){ echo 'not-active';}?>">Delete</a></li>
 					</ul>
 				<?php

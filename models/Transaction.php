@@ -10,6 +10,7 @@ class Transaction {
     public $itemId;
     public $itemQty;
     public $discount;
+    public $deduction;
     public $itemPrice;
     public $description;
     
@@ -25,6 +26,7 @@ class Transaction {
                  item_id=:item_id,
                  item_qty=:item_qty,
                  discount=:discount,
+                 deduction=:deduction,
                  item_price=:item_price,
                  description=:description";
         
@@ -36,6 +38,7 @@ class Transaction {
         $stmt->bindParam(':item_id', $this->itemId);
         $stmt->bindParam(':item_qty', $this->itemQty);
         $stmt->bindParam(':discount', $this->discount);
+        $stmt->bindParam(':deduction', $this->deduction);
         $stmt->bindParam(':item_price', $this->itemPrice);
         $stmt->bindParam(':description', $this->description);
         
@@ -82,6 +85,7 @@ class Transaction {
 				t_unit.unit_name,
 				t_transaction.item_price,
 				t_transaction.discount,
+				t_transaction.deduction,
 				t_item.real_price,
 				t_transaction.description,
 				t_transaction.created_at,
@@ -94,7 +98,7 @@ class Transaction {
 				LEFT JOIN t_highlight
 				ON t_item.highlight_id = t_highlight.highlight_id
 				WHERE t_transaction.transaction_code =:transaction_code
-                ORDER BY t_transaction.created_at ASC
+                ORDER BY t_item.item_name ASC
 				";
 		
 		$stmt = $this->conn->prepare($query);
@@ -114,6 +118,7 @@ class Transaction {
                  item_id=:item_id,
                  item_qty=:item_qty,
                  discount=:discount,
+                 deduction=:deduction,
                  item_price=:item_price,
                  description=:description
 				 where transaction_id=:transaction_id";
@@ -125,6 +130,7 @@ class Transaction {
         $stmt->bindParam(':item_id', $this->itemId);
         $stmt->bindParam(':item_qty', $this->itemQty);
         $stmt->bindParam(':discount', $this->discount);
+        $stmt->bindParam(':deduction', $this->deduction);
         $stmt->bindParam(':item_price', $this->itemPrice);
         $stmt->bindParam(':description', $this->description);
 		$stmt->bindParam(':transaction_id', $this->transactionId);
@@ -151,6 +157,7 @@ class Transaction {
 				t_unit.unit_name, 
 				t_transaction.item_qty,
 				t_transaction.discount,
+				t_transaction.deduction,
 				t_transaction.item_price, 
 				t_transaction.description
 				FROM " . $this->tableName . "
@@ -266,6 +273,7 @@ class Transaction {
                   t_transaction.item_qty,
                   t_transaction.item_price,
                   t_transaction.discount,
+                  t_transaction.deduction,
                   t_transaction.description,
                   t_unit.unit_name
                   FROM " . $this->tableName . " 

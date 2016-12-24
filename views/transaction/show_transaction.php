@@ -86,8 +86,16 @@ $fetch = $stmt2->fetch(PDO::FETCH_OBJ);
         <td>: <?php echo $fetch->shipping_date;?></td>
     </tr>
     <tr>
+        <td>Potongan/Voucher</td>
+        <td>: IDR <?php echo number_format($fetch->voucher,0,',','.');?></td>
+    </tr>
+    <tr>
         <td>Description</td>
         <td>: <?php echo $fetch->description;?></td>
+    </tr>
+    <tr>
+        <td>Description 2</td>
+        <td>: <?php echo $fetch->description_2;?></td>
     </tr>
 </table>
 <br/>
@@ -98,6 +106,7 @@ $fetch = $stmt2->fetch(PDO::FETCH_OBJ);
             <th class='col-md-2'>Qty</th>
             <th class='col-md-2'>Unit</th>
             <th class='col-md-2'>Discount</th>
+            <th class='col-md-2'>Potongan</th>
             <th class='col-md-2'>Price</th>
             <th class='col-md-2'>Description</th>
             <th class='col-md-2'>Menu</th>
@@ -115,6 +124,7 @@ $fetch = $stmt2->fetch(PDO::FETCH_OBJ);
             <td class='col-md-2'><?php echo $row->item_qty; ?></td>
             <td class='col-md-2'><?php echo $row->unit_name; ?></td>
             <td class='col-md-2'><?php echo $row->discount . "%"; ?></td>
+            <td class='col-md-2'><?php echo $row->deduction; ?></td>
             <td class='col-md-2'><?php 
 			$price = $row->item_price;
 			echo number_format($price,0,',','.'); ?></td>
@@ -146,8 +156,24 @@ $fetch = $stmt2->fetch(PDO::FETCH_OBJ);
             <td class='col-md-2'></td>
         </tr>
 		<tr>
-            <td class='col-md-2' colspan="4"><strong>Grand Total</strong></td>
+            <td class='col-md-2' colspan="6"><strong>Total</strong></td>
             <td class='col-md-2'><strong><?php echo number_format($totalPrice,0,',','.');?></td>
 			<td class='col-md-2'></td>
         </tr>
+        <tr>
+            <td class='col-md-2' colspan="6"><strong>Potongan/Voucher</strong></td>
+            <td class='col-md-2'><strong><?php echo number_format($fetch->voucher,0,',','.');?></td>
+            <td class='col-md-2'></td>
+        </tr>
+        <tr>
+            <td class='col-md-2' colspan="6"><strong>Grand Total</strong></td>
+            <td class='col-md-2'><strong><?php $grandTotal = $totalPrice - $fetch->voucher; echo number_format($grandTotal,0,',','.');?></td>
+            <td class='col-md-2'></td>
+        </tr>
     </table>
+    <?php
+
+    $invoice->total = $grandTotal;
+    $invoice->setTotal();
+
+    ?>

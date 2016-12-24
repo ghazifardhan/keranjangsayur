@@ -295,7 +295,8 @@ $(document).ready(function(){
             $.post("/keranjangsayur/views/transaction/create_invoice.php", $(this).serialize()).done(function(data){
 				var page = 1;
 				var search = "";
-                showInvoice(page, search);
+                var invoiceCode = $('#invoiceCode').val();
+                showTransaction(invoiceCode);
             });
             
             return false;
@@ -366,7 +367,8 @@ $(document).ready(function(){
             $.post("/keranjangsayur/views/transaction/update_invoice.php", $(this).serialize()).done(function(data){
                 var page = 1;
 				var search = "";
-                showInvoice(page, search);
+                var invoiceCode = $('#invoiceCode').val();
+                showTransaction(invoiceCode);
             });
             
             return false;
@@ -468,7 +470,7 @@ $(document).ready(function(){
                 e.preventDefault();
                 if(x < max_fields){
                     x++;
-                    $(wrapper).append('<div class="panel panel-default"><div class="panel-heading">Item '+ x +' <button type="button" class="btn btn-danger remove-field" style="margin-top: -7px; padding: -2px; float: right;">X</button></div><div class="panel-body"><table class="table table-hover table-responsive table-bordered""><tr><td>Item Name</td><td><select id="item'+x+'" data-placeholder="Choose Item" name="itemId[]" class="form-control chosen-select" required></select></td></tr><tr><td>Qty</td><td><div id="result'+x+'"><div class="input-group"><input type="number" name="itemQty[]" pattern="[0-9]+([\.,][0-9]+)?" step="0.01" class="form-control" required /><span class="input-group-addon" id="basic-addon2"></span></div></div></td></tr><tr><td>Discount</td><td><div class="input-group"><input type="number" name="discount[]" pattern="[0-9]+([\.,][0-9]+)?" step="0.01" class="form-control" aria-describedby="basic-addon2"/><span class="input-group-addon" id="basic-addon2">%</span></div></td></tr><tr><td>Description</td><td><input type="text" name="description[]" class="form-control"/></td></tr></table></div></div>');
+                    $(wrapper).append('<div class="panel panel-default"><div class="panel-heading">Item '+ x +' <button type="button" class="btn btn-danger remove-field" style="margin-top: -7px; padding: -2px; float: right;">X</button></div><div class="panel-body"><table class="table table-hover table-responsive table-bordered""><tr><td>Item Name</td><td><select id="item'+x+'" data-placeholder="Choose Item" name="itemId[]" class="form-control chosen-select" required></select></td></tr><tr><td>Qty</td><td><div id="result'+x+'"><div class="input-group"><input type="number" name="itemQty[]" pattern="[0-9]+([\.,][0-9]+)?" step="0.01" class="form-control" required /><span class="input-group-addon" id="basic-addon2"></span></div></div></td></tr><tr><td>Discount</td><td><div class="input-group"><input type="number" name="discount[]" pattern="[0-9]+([\.,][0-9]+)?" step="0.01" class="form-control" aria-describedby="basic-addon2"/><span class="input-group-addon" id="basic-addon2">%</span></div></td></tr><tr><td>Potongan</td><td><input type="number" name="deduction[]" class="form-control" pattern="[0-9]+([\.,][0-9]+)?" step="0.01"/></div></td></tr><td>Description</td><td><input type="text" name="description[]" class="form-control"/></td></tr></table></div></div>');
                     getData(x);
                     getUnit(x);
                 }
@@ -576,6 +578,18 @@ $(document).ready(function(){
             });
             }
         });
+        
+        $(document).on('click', '.btn-print-shipping-invoice-pdf', function(){
+            var fromDate = $('#fromDate').val();
+            
+            var win = window.open('/keranjangsayur/views/transaction/output/print_shipping_detail_pdf_v2.php?fromDate=' + fromDate, '_blank');
+        });
+        
+        $(document).on('click', '.btn-print-shipping-invoice-xls', function(){
+            var fromDate = $('#fromDate').val();
+            
+            var win = window.open('/keranjangsayur/views/transaction/output/print_shipping_detail_xls_v2.php?fromDate=' + fromDate, '_blank');
+        });
     
         $(document).on('click', '.btn-print-shipping-detail-pdf', function(){
             var fromDate = $('#fromDate').val();
@@ -588,6 +602,13 @@ $(document).ready(function(){
             var dateTwo = $('#dateTwo').val();
             
             var win = window.open('/keranjangsayur/views/transaction/output/print_invoice_by_date.php?dateOne=' + dateOne +'&dateTwo=' + dateTwo, '_blank');
+        });
+    
+        $(document).on('click', '.btn-export-invoice-pdf', function(){
+            var dateOne = $('#dateOne').val();
+            var dateTwo = $('#dateTwo').val();
+            
+            var win = window.open('/keranjangsayur/views/transaction/output/print_invoice_by_date_pdf.php?dateOne=' + dateOne +'&dateTwo=' + dateTwo, '_blank');
         });
     
         $(document).on('click', '.btn-print-shipping-detail-xls', function(){
@@ -830,37 +851,43 @@ $(document).ready(function(){
 		$(document).on('click', '.btn-search-invoice', function(){
 			var page = 1;
 			var search = $('#search-box-invoice').val();
-			showInvoice(page, search);
+			var stringReplace = search.replace(" ", "+");
+			showInvoice(page, stringReplace);
 		});
 	
 		$(document).on('click', '.btn-search-category', function(){
 			var page = 1;
 			var search = $('#search-box-category').val();
-			showCategory(page, search);
+			var stringReplace = search.replace(" ", "+");
+			showCategory(page, stringReplace);
 		});
 	
 		$(document).on('click', '.btn-search-item', function(){
 			var page = 1;
 			var search = $('#search-box-item').val();
-			showItem(page, search);
+			var stringReplace = search.replace(" ", "+");
+			showItem(page, stringReplace);
 		});
 	
 		$(document).on('click', '.btn-search-unit', function(){
 			var page = 1;
 			var search = $('#search-box-unit').val();
-			showUnit(page, search);
+			var stringReplace = search.replace(" ", "+");
+			showUnit(page, stringReplace);
 		});
 	
 		$(document).on('click', '.btn-search-user', function(){
 			var page = 1;
 			var search = $('#search-box-user').val();
-			showUser(page, search);
+			var stringReplace = search.replace(" ", "+");
+			showUser(page, stringReplace);
 		});
 	
 		$(document).on('click', '.btn-search-highlight', function(){
 			var page = 1;
 			var search = $('#search-box-highlight').val();
-			showHighlight(page, search);
+			var stringReplace = search.replace(" ", "+");
+			showHighlight(page, stringReplace);
 		});
 	
 		// end of search
@@ -970,6 +997,18 @@ $(document).ready(function(){
                 });
             });
         }
+    
+        function showShippingInvoice(){
+            $('#page-content').fadeOut('fast', function(){
+                $('#page-content').load('/keranjangsayur/views/transaction/form_shipping_invoice.php', function(){
+                    // hide loader image
+                    $('#loader-image').hide();
+                    
+                    // fade in effect
+                    $('#page-content').fadeIn('fast');
+                });
+            });
+        }
 	
 		function showDetailPackingSplit(){
             $('#page-content').fadeOut('fast', function(){
@@ -1055,8 +1094,14 @@ $(document).ready(function(){
     
         $('#detail_packing').click(function(){
 			$('#loader-image').show();
-			changePageTitle('Create Detail Packing');
+			changePageTitle('Create Daily Omzet');
 			showDetailPacking();
+		});
+    
+        $('#shipping_invoice').click(function(){
+			$('#loader-image').show();
+			changePageTitle('Create Shipping Invoice');
+            showShippingInvoice();
 		});
     	
 		$('#show-user').click(function(){
@@ -1105,5 +1150,19 @@ $(document).ready(function(){
         //ubah judul halaman 
         document.title=page_title; 
         }
+
+        $('input.number').keyup(function(event) {
+
+              // skip for arrow keys
+              if(event.which >= 37 && event.which <= 40) return;
+
+              // format number
+              $(this).val(function(index, value) {
+                return value
+                .replace(/\D/g, "")
+                .replace(/\B(?=(\d{3})+(?!\d))/g, ".")
+                ;
+              });
+        });
         
 });

@@ -9,13 +9,15 @@ class Invoice {
     public $invoiceCode;
     public $invoiceDate;
     public $customerName;
-    public $customerCode;
+    public $customerPhone;
     public $customerAddress;
     public $customerAddress2;
     public $customerAddress3;
     public $paymentMethod;
     public $shippingDate;
+    public $voucher;
     public $description;
+    public $description2;
     public $isPaid;
     public $date1;
     public $date2;
@@ -36,7 +38,9 @@ class Invoice {
                   customer_address_3=:customer_address_3,
                   payment_method=:payment_method,
                   shipping_date=:shipping_date,
+                  voucher=:voucher,
                   description=:description,
+                  description_2=:description2,
                   is_paid=:is_paid
 				  ";
         
@@ -51,7 +55,9 @@ class Invoice {
         $stmt->bindParam(':customer_address_3', $this->customerAddress3);
         $stmt->bindParam(':payment_method', $this->paymentMethod);
         $stmt->bindParam(':shipping_date', $this->shippingDate);
+        $stmt->bindParam(':voucher', $this->voucher);
         $stmt->bindParam(':description', $this->description);
+        $stmt->bindParam(':description2', $this->description2);
         $stmt->bindParam(':is_paid', $this->isPaid);
         
         if($stmt->execute()){
@@ -73,7 +79,9 @@ class Invoice {
 				  t_invoice.payment_method,
 		          payment_method.payment_method_name,
 		          t_invoice.shipping_date,
+		          t_invoice.voucher,
 		          t_invoice.description,
+		          t_invoice.description_2,
 		          t_invoice.is_paid
 				  FROM " . $this->tableName . " 
 				  LEFT JOIN payment_method
@@ -126,6 +134,8 @@ class Invoice {
 				  customer_phone LIKE CONCAT('%', :customer_phone, '%')
 				  OR
 				  description LIKE CONCAT('%', :description, '%')
+				  OR
+				  description_2 LIKE CONCAT('%', :description2, '%');
 				  ORDER BY invoice_id DESC
 		          LIMIT $position,$offset";
 		} else {
@@ -144,6 +154,7 @@ class Invoice {
 		$stmt->bindParam(':customer_address_3', $_GET['q']);
 		$stmt->bindParam(':customer_phone', $_GET['q']);
 		$stmt->bindParam(':description', $_GET['q']);
+		$stmt->bindParam(':description2', $_GET['q']);
 		// execute
 		$stmt->execute();
 		
@@ -177,8 +188,10 @@ class Invoice {
 					t_invoice.payment_method,
 					payment_method.payment_method_name,
 					t_invoice.shipping_date,
+					t_invoice.voucher,
 					t_invoice.total,
-					t_invoice.description
+					t_invoice.description,
+					t_invoice.description_2
 					FROM t_invoice
 					LEFT JOIN payment_method
 					ON t_invoice.payment_method = payment_method.payment_method_id
@@ -259,7 +272,10 @@ class Invoice {
           customer_address_3=:customer_address_3,
           payment_method=:payment_method,
           shipping_date=:shipping_date,
-          description=:description
+          voucher=:voucher,
+          description=:description,
+          description_2=:description2,
+          total=:total
         WHERE
         invoice_code =:invoice_code";
             
@@ -276,7 +292,10 @@ class Invoice {
         $stmt->bindParam(':customer_address_3', $this->customerAddress3);
         $stmt->bindParam(':payment_method', $this->paymentMethod);
         $stmt->bindParam(':shipping_date', $this->shippingDate);
+        $stmt->bindParam(':voucher', $this->voucher);
         $stmt->bindParam(':description', $this->description);
+        $stmt->bindParam(':description2', $this->description2);
+        $stmt->bindParam(':total', $this->total);
         $stmt->bindParam(':invoice_code', $this->invoiceCode);
         
         // execute query
@@ -305,6 +324,25 @@ class Invoice {
 		}
 	}
 	
+	public function getTotal(){
+
+		$query = "SELECT total FROM " . $this->tableName . " WHERE invoice_code=:invoice_code";
+		$stmt = $this->conn->prepare($query);
+		$stmt->bindParam(':invoice_code', $this->invoice_code);
+		$stmt->execute();
+		return $stmt;
+	}
+
+	public function getVoucher(){
+
+		$query = "SELECT voucher FROM " . $this->tableName . " WHERE invoice_code=:invoice_code";
+		$stmt = $this->conn->prepare($query);
+		$stmt->bindParam(':invoice_code', $this->invoice_code);
+		$stmt->execute();
+		return $stmt;
+
+	}
+
 	public function getShipping(){
 		$query = "SELECT MAX(shipping_date) as shipping FROM " . $this->tableName . " 
 					WHERE invoice_date = ?";
@@ -356,7 +394,9 @@ class Invoice {
 				  t_invoice.payment_method,
 		          payment_method.payment_method_name,
 		          t_invoice.shipping_date,
+		          t_invoice.voucher,
 		          t_invoice.description,
+		          t_invoice.description_2,
 		          t_invoice.is_paid
 				  FROM " . $this->tableName . " 
 				  LEFT JOIN payment_method

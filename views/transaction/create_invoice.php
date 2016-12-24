@@ -23,7 +23,9 @@ $invoice->customerAddress2 = $_POST['customerAddress2'];
 $invoice->customerAddress3 = $_POST['customerAddress3'];
 $invoice->paymentMethod = $_POST['paymentMethod'];
 $invoice->shippingDate = $_POST['shippingDate'];
+$invoice->voucher = $_POST['voucher'];
 $invoice->description = $_POST['description'];
+$invoice->description2 = $_POST['description2'];
 $invoice->isPaid = '0';
 
 

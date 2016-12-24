@@ -20,7 +20,7 @@ if($num>0){
 <style type="text/css">
     table {
         border-collapse: collapse;
-        font-size: 10px;
+        font-size: 9px;
         width: 100%;
     }
 
@@ -67,16 +67,20 @@ if($num>0){
         text-align: center;
     }
     #margin {
-        margin-left: 25px;
+        margin-left: 15px;
         font-family: calibri;
     }
     #margin2 {
-        margin-left: 25px;
+        margin-left: auto;
+        margin-right: auto;
+        width: 70%;
     }
 	font {
 		color: red;
 		/*font-size: 18px;*/
-        text-align: center;
+        margin-left: 50px;
+        margin-right: auto;
+        width: 70%;
 	}
 	.bordertop {
 		border-top: 0px;
@@ -90,17 +94,28 @@ if($num>0){
     .v-align {
         vertical-align: middle;
     }
-    font .t-left {
-        text-align: left;
+    .boldp{
+        font-weight: bold;
+        padding-bottom: -10px;
+        padding-top: -10px;
     }
-    font .t-left {
-        text-align: right;
+    .centerp {
+        color: red;
+        font-size: 10px;
+        padding-bottom: -10px;
+        padding-top: -10px;
+        text-align: center;
+    }
+    .noborder{
+        border: 0px;
+    }
+    .tbl{
+        width: 595pt;
     }
 </style>
 </head>
 <body>
 	<div id="margin">
-    <h1 style="text-align: center;">Shipping Invoice</h1>
 	<table>
 		<tr>
 			<td class="test2 t-center">ORDER</td>
@@ -112,10 +127,10 @@ if($num>0){
 		</tr>
 	</table>
 	<br/>
-    <table border="1" style="border-collapse: collapse;">
+    <table class="tbl" border="1" style="border-collapse: collapse;">
     <tr>
-        <th class="t-center v-align" style="height: 13px;" rowspan="2">INVOICE</th>
-        <th class="t-center v-align" rowspan="2">NAMA</th>
+        <th class="t-center v-align" style="height: 13px;width: 60px;" rowspan="2">INVOICE</th>
+        <th class="t-center v-align" rowspan="2" style="width: 100px;">NAMA</th>
         <th class="t-center v-align" style="width: 200px;" rowspan="2">ALAMAT</th>
         <th class="t-center v-align" style="width: 150px;">ORDER</th>
         <th class="t-center v-align" colspan="2" rowspan="2">BANYAKNYA</th>
@@ -132,21 +147,35 @@ if($num>0){
     $transaction->transactionCode = $rowInvoice->invoice_code;
     $stmtTrans = $transaction->index();
     $num = $stmtTrans->rowCount();
+    if($rowInvoice->voucher != 0){
+        $temp1 = 6;
+        $temp2 = 7;
+        $temp3 = 3;
+    } else {
+        $temp1 = 4;
+        $temp2 = 5;
+        $temp3 = 2;
+    }
     ?>
     <tr>
-        <td rowspan="<?php if($num < 4){ echo 5; } else {echo $num+2;} ?>" style="text-align: left; vertical-align: top;"><?php echo $rowInvoice->invoice_code;?></td>
-        <td rowspan="<?php if($num < 4){ echo 5; } else {echo $num+2;} ?>" style="text-align: left; vertical-align: top;">
+        <td rowspan="<?php if($num < $temp1){ echo $temp2; } else {echo $num+$temp3;} ?>" style="text-align: left; vertical-align: top;"><?php echo $rowInvoice->invoice_code;?></td>
+        <td rowspan="<?php if($num < $temp1){ echo $temp2; } else {echo $num+$temp3;} ?>" style="text-align: left; vertical-align: top;">
             <?php 
         echo $rowInvoice->customer_name . "<br/>";
         echo $rowInvoice->customer_phone . "<br/>";
             ?></td>
-        <td rowspan="<?php if($num < 4){ echo 5; } else {echo $num+2;} ?>" style="vertical-align: top;">
+        <td rowspan="<?php if($num < $temp1){ echo $temp2; } else {echo $num+$temp3;} ?>" style="vertical-align: top;">
             <?php 
                 echo $rowInvoice->customer_address . "<br/>";
                 if($rowInvoice->customer_address_2 == ""){ } else { echo $rowInvoice->customer_address_2 . "<br/>"; }
-                if($rowInvoice->customer_address_3 == ""){ } else { echo $rowInvoice->customer_address_3 . "<br/>"; }
-                echo "<font style='margin-left: 50px;'>" . $rowInvoice->description . "</font><br/>";
-                echo "<font style='margin-left: 75px;'>" . $rowInvoice->payment_method_name . "</font><br/>";
+                if($rowInvoice->customer_address_3 == ""){ } else { echo "<p class='boldp'>" . $rowInvoice->customer_address_3 . "</p>"; }
+                echo "<p class='centerp'>" . strtoupper($rowInvoice->description) . "</p>";
+                echo "<p class='centerp'>" . strtoupper($rowInvoice->payment_method_name) . "</p>";
+                echo "<p class='centerp'>" . strtoupper($rowInvoice->description_2) . "</p>";
+                if($rowInvoice->voucher != 0){
+                                echo "POT/VOUCHER" . "<br/>";
+                                echo "<p class='boldp'>IDR " . number_format($rowInvoice->voucher,0,',','.') . "</p>";
+                            } else { }
             ?>
         </td>
     </tr>
@@ -154,7 +183,7 @@ if($num>0){
         while($rowTrans = $stmtTrans->fetch(PDO::FETCH_OBJ)){
         ?>
     <tr>
-        <td style="height: 10px; border-left: 0px; background-color: <?php if($rowTrans->highlight_color != NULL){ echo $rowTrans->highlight_color;} else { echo 'white';} ?>;" class="v-align t-center"><?php echo $rowTrans->item_name;?></td>
+        <td style="height: 10px; border-left: 0px; background-color: <?php if($rowTrans->highlight_color != NULL){ echo $rowTrans->highlight_color;} else { echo 'white';} ?>;" class="v-align t-center"><?php echo strtoupper($rowTrans->item_name);?></td>
         <td style="height: 10px; border-left: 0px; border-left: 0px; background-color: <?php if($rowTrans->highlight_color != NULL){ echo $rowTrans->highlight_color;} else { echo 'white';} ?>;" class="v-align t-center"><?php echo $rowTrans->item_qty;?></td>
         <td style="height: 10px; border-left: 0px; background-color: <?php if($rowTrans->highlight_color != NULL){ echo $rowTrans->highlight_color;} else { echo 'white';} ?>;" class="v-align t-center"><?php echo $rowTrans->unit_name;?></td>
         <td style="height: 10px; border-left: 0px; background-color: <?php if($rowTrans->highlight_color != NULL){ echo $rowTrans->highlight_color;} else { echo 'white';} ?>;" class="v-align t-center"><?php echo "IDR " . number_format($rowTrans->item_price,0,',','.');?></td>
@@ -163,18 +192,31 @@ if($num>0){
          
         } 
         
+
         if($num <= 3){
             $y = 3 - $num;
             for($x=1;$x<=$y;$x++){
                 echo '<tr><td style="height: 10px; border-left: 0px;"></td><td style="height: 10px; border-left: 0px;"></td><td style="height: 10px; border-left: 0px;"></td><td style="height: 10px; border-left: 0px;"></td></tr>';
             }
         }
+
+        $totalBeforeDeduction = $rowInvoice->total + $rowInvoice->voucher;
     ?>
-    
     <tr>
         <td style="height: 10px; border-left: 0px; font-weight: bold;" colspan="3" class="v-align t-center">TOTAL</td>
-        <td style="height: 10px; font-weight: bold;" class="v-align t-center"><?php echo "IDR " . number_format($rowInvoice->total,0,',','.'); ?></td>
+        <td style="height: 10px; font-weight: bold;" class="v-align t-center"><?php echo "IDR " . number_format($totalBeforeDeduction,0,',','.'); ?></td>
     </tr>
+    <?php
+        if($rowInvoice->voucher !=0){
+        $totalAfterDeduction = $rowInvoice->total;
+    ?>
+    <tr>
+        <td style="height: 10px; border-left: 0px; font-weight: bold;" colspan="3" class="v-align t-center">TOTAL SETELAH POT.</td>
+        <td style="height: 10px; font-weight: bold;" class="v-align t-center"><?php echo "IDR " . number_format($totalAfterDeduction,0,',','.'); ?></td>
+    </tr>
+    <?php
+        }
+    ?>
     <?php
     }
     ?>
@@ -189,20 +231,20 @@ if($num>0){
 		?>
 		
 		</div>
-	<br/><br/><br/>
+	<br/><br/>
 		<div id="margin">
-		<table>
+		<table border='0'>
 			<tr>
-				<td style="width: 300px;" class="test4">Total Transfer</td>
-				<td class="test5"><?php echo number_format($row3->total,0,',','.'); ?></td>
+				<td style="width: 150px;text-align:center;">Total Transfer</td>
+				<td style="width: 150px;text-align:right;"><?php echo "IDR " . number_format($row3->total,0,',','.'); ?></td>
 			</tr>
 			<tr>
-				<td style="width: 300px;" class="test4">Total Cash</td>
-				<td class="test5"><?php echo number_format($row4->total,0,',','.'); ?></td>
+				<td style="width: 150px;text-align:center;">Total Cash</td>
+				<td style="width: 150px;text-align:right;"><?php echo "IDR " . number_format($row4->total,0,',','.'); ?></td>
 			</tr>
 			<tr>
-				<td style="width: 300px;" class="test4">Grand Total</td>
-				<td class="test5"><?php echo number_format($row4->total+$row3->total,0,',','.'); ?></td>
+				<td style="width: 150px;text-align:center;">Grand Total</td>
+				<td style="width: 150px;text-align:right;"><?php echo "IDR " . number_format($row4->total+$row3->total,0,',','.'); ?></td>
 			</tr>
 		</table>
 	   </div>
@@ -210,7 +252,7 @@ if($num>0){
 </html>
 <?php } else { echo 'No Transaction from date ' . $invoice->invoiceDate; } ?>
 <?php
-$filename = "shiping_detail_".$invoice->invoiceDate . " - " . $row2->shipping . ".pdf";
+$filename = "daily_omzet_".$invoice->invoiceDate . " - " . $row2->shipping . ".pdf";
 $content = ob_get_clean();
 require_once('../../../libs/html2pdf/html2pdf.class.php'); // arahkan ke folder html2pdf
 try

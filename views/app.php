@@ -5,7 +5,9 @@
 <!DOCTYPE html>
 <html lang="en-US">
     <head>
-        
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Keranjang Sayur</title>
         
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
@@ -79,8 +81,9 @@
                         <ul class="dropdown-menu">
                             <li><a href="javascript://" id="create_invoice">New Invoice</a></li>
 							<li><a href="javascript://" id="show_invoice">Show Invoice</a></li>
-							<li><a href="javascript://" id="detail_packing">Shipping Invoice</a></li>
-							<li><a href="javascript://" id="detail_packing_pisah">Detail Packing Pisah</a></li>
+							<li><a href="javascript://" id="detail_packing">Daily Omzet</a></li>
+							<li><a href="javascript://" id="detail_packing_pisah">Detail Packing</a></li>
+							<li><a href="javascript://" id="shipping_invoice">Shipping Invoice</a></li>
 							<li><a href="javascript://" id="export_invoice">Export Invoice</a></li>
                         </ul>
                     </li>

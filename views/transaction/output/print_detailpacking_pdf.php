@@ -27,27 +27,28 @@ $shipDateFormat = date('l, d F Y', strtotime($shipDate));
         font-family: arial, sans-serif;
         border-collapse: collapse;
         width: 100%;
+        font-size: 10px;
     }
 
     .test {
-        border: 2px solid #00b050;
+        border: 2px solid #000000;
         text-align: left;
         padding: 8px;
     }
 	.test2 {
-        border: 2px solid #00b050;
+        border: 2px solid #000000;
         text-align: left;
         padding: 8px;
         background-color: #ffdd00;
     }
 	.test3 {
-        border: 2px solid #00b050;
+        border: 2px solid #000000;
         text-align: left;
         padding: 8px;
 		background-color: #ffaa00;
     }
 	.test4 {
-        border: 2px solid #00b050;
+        border: 2px solid #000000;
         text-align: left;
         padding: 8px;
 		vertical-align: middle;
@@ -92,7 +93,6 @@ $shipDateFormat = date('l, d F Y', strtotime($shipDate));
 </head>
 <body>
 	<div id="margin">
-	<h1 style="text-align: center;">DETAIL PACKING PISAH</h1>
 	<table>
 		<tr>
 			<td class="test2 t-align">ORDER</td>
@@ -126,7 +126,7 @@ $shipDateFormat = date('l, d F Y', strtotime($shipDate));
         ?>    
         <tr>
 			<?php if($group !== $prev_group){ ?>
-            <td class="test4 t-align" style="background-color: <?php if($row->highlight_color != NULL){ echo $row->highlight_color;} else { echo 'white';} ?>;" rowspan="<?php echo $rowCount->countItem;?>"><?php echo $row->item_name; ?></td>
+            <td class="test4 t-align" style="background-color: <?php if($row->highlight_color != NULL){ echo $row->highlight_color;} else { echo 'white';} ?>;" rowspan="<?php echo $rowCount->countItem;?>"><?php echo strtoupper($row->item_name); ?></td>
 			<?php $prev_group = $group;}?>
             <td class="test4 t-align" style="border-left: 0px;"><?php echo $row->invoice_code; ?></td>
             <td class="test4"><?php echo $row->customer_name; ?></td>
@@ -142,7 +142,7 @@ $shipDateFormat = date('l, d F Y', strtotime($shipDate));
     </body>
 </html>
 <?php
-$filename = "invoice-".$fetch->invoice_code . ".pdf";
+$filename = "detail_packing-". $_GET['fromDate'] . ".pdf";
 $content = ob_get_clean();
 require_once('../../../libs/html2pdf/html2pdf.class.php'); // arahkan ke folder html2pdf
 try

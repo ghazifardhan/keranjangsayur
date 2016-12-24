@@ -2,10 +2,10 @@
 class Database{
      
     // akses ke database
-    private $host = "localhost";
-    private $dbName = "nsproject";
-    private $username = "root";
-    private $password = "";
+    private $host = "mysql.idhostinger.com";
+    private $dbName = "u892768932_ks";
+    private $username = "u892768932_ks";
+    private $password = "navara";
     public $conn;
      
     // akses untuk koneksi database

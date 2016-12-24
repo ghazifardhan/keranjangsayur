@@ -33,6 +33,7 @@ $invoice->setTotal();
 $itemId = $_POST['itemId'];
 $itemQty = $_POST['itemQty'];
 $discount = $_POST['discount'];
+$deduction = $_POST['deduction'];
 $description = $_POST['description'];
 
 foreach($itemId as $key => $v){
@@ -44,7 +45,8 @@ foreach($itemId as $key => $v){
     $row = $stmt->fetch(PDO::FETCH_OBJ);
     $transaction->itemQty = $itemQty[$key];
     $transaction->discount = $discount[$key];
-    $transaction->itemPrice = $row->real_price*$itemQty[$key]*((100-$discount[$key])/100);
+    $transaction->deduction = $deduction[$key];
+    $transaction->itemPrice = ($row->real_price*$itemQty[$key]*((100-$discount[$key])/100))-$deduction[$key];
     $transaction->description = $description[$key];
     $transaction->create();
 

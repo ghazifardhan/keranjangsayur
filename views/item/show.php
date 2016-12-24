@@ -48,7 +48,7 @@ if($num>0){
             <td><?php echo $row->category_name; ?></td>
             <td><?php echo $row->unit_name; ?></td>
             <td><?php echo $row->onqty; ?></td>
-            <td><?php echo $row->price; ?></td>
+            <td><?php echo number_format($row->price,0,',','.'); ?></td>
             <td><?php echo $row->highlight_name; ?></td>
             <td><?php echo $row->description; ?></td>
             <td>

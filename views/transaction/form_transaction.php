@@ -33,6 +33,11 @@ $invoiceCode = $_GET['invoice_code'];
 				</td>
 			</tr>
 			<tr>
+				<td>Potongan</td>
+				<td><input type="number" name="deduction[]" class="form-control" pattern="[0-9]+([\.,][0-9]+)?" step="0.01"/></div>
+				</td>
+			</tr>
+			<tr>
 				<td>Description</td>
 				<td><input type="text" name="description[]" class="form-control"/></td>
 			</tr>

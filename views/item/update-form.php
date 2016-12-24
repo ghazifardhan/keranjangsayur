@@ -64,6 +64,7 @@ $item->showOne();
                 <td class='col-md-2'>Highlight</td>
                 <td class='col-md-6'><select data-placeholder="Choose Highlight" id="highlightId" name="highlightId" class='form-control chosen-select'>
                     <option value=""></option>
+                    <option value="">Non-Highlight</option>
                     <?php 
                     
                     $stmt = $highlight->indexAll();
@@ -85,3 +86,4 @@ $item->showOne();
             </tr>       
         </table>    
     </form>
+	
