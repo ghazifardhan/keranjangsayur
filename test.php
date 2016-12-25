@@ -1,182 +1,50 @@
-<?php
-require_once 'models/Include.php';
-ob_start();
-// query category
-// $invoiceCode = isset($_GET['invoice_code']) ? $_GET['invoice_code'] : die('ERROR: Item ID Not Found');
-
-// Fungsi header dengan mengirimkan raw data excel
- 
-// Mendefinisikan nama file ekspor "hasil-export.xls"
-$dateOne = "2016-12-04";
-$dateTwo = "2016-12-04";
-?>
 <!DOCTYPE html>
 <html>
 <head>
-<style type="text/css">
-    table {
-        /*font-family: arial, sans-serif;*/
-        border-collapse: collapse;
-        width: 100%;
-    }
-    .border-color {
-        border: 1px solid #00b050;
-    }
-    .test {
-        border: 1px solid #00b050;
-        text-align: left;
-        padding: 4px;
-    }
-    .test2 {
-        border-top: 2px solid #00b050;
-        border-right: 2px solid #00b050;
-        border-bottom: 2px solid #00b050;
-    }
-    .tdwidth {
-        width: 100px;
-    }
-    .tdwidth2 {
-        width: 10px;
-    }
-    .tdwidth3 {
-        width: 150px;
-    }
-    .topleft {
-      vertical-align: top;
-      text-align: left;
-    }
-    .align {
-        text-align: right;
-    }
-    #footer {
-        position: absolute;
-        bottom: 0;
-        text-align: center;
-    }
-    #margin {
-        margin-left: 8px;
-    }
-    #margin2 {
-        margin-left: 8px;
-    }
-    .bold {
-        font-weight: bold;
-    }
-</style>
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
+
+<script src="libs/js/jquery.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+
 </head>
+
 <body>
-<?php
-    $invoice->date1 = $dateOne;
-    $invoice->date2 = $dateTwo;
-    $stmt = $invoice->invoiceByDate();
-    while($row = $stmt->fetch(PDO::FETCH_OBJ)){
-?>
-<page>
-    <img src="https://s17.postimg.org/nnp4f9dan/excell2333.jpg" width="525" height="100"/>
-    <table>
-    <tr>
-        <td class="bold">No. Invoice</td>
-        <td class="bold tdwidth2">:</td>
-        <td><?php echo $row->invoice_code;?></td>
-    </tr>
-    <tr>
-        <td class="bold">Nama</td>
-        <td class="bold tdwidth2">:</td>
-        <td><?php echo $row->customer_name;?></td>
-    </tr>
-    <tr>
-        <td class="bold"></td>
-        <td class="bold tdwidth2"></td>
-        <td><?php echo "'".$row->customer_phone;?></td>
-    </tr>
-    <tr>
-        <td style="text-align:left;vertical-align:top;width: 100px;" class="bold">Alamat</td>
-        <td style="text-align:left;vertical-align:top;" class="bold tdwidth2">:</td>
-        <td style="width: 300px;"><?php echo $row->customer_address;?></td>
-    </tr>
-    <tr>
-        <td style="text-align:left;vertical-align:top;width: 100px;" class="bold"></td>
-        <td style="text-align:left;vertical-align:top;" class="bold tdwidth2"></td>
-        <td style="width: 300px;"><?php echo $row->customer_address_2;?></td>
-    </tr> 
-    <tr>
-        <td style="text-align:left;vertical-align:top;width: 100px;" class="bold"></td>
-        <td style="text-align:left;vertical-align:top;" class="bold tdwidth2"></td>
-        <td style="width: 300px; font-weigth: bold;"><?php echo $row->customer_address_3;?></td>
-    </tr>
-	<tr>
-        <td colspan="3" style="text-align: center; font-weight: bold; color: red; font-size: 16;"><?php echo $row->description;?></td>
-    </tr>
-	<tr>
-        <td colspan="3" style="text-align: center; font-weight: bold; color: red; font-size: 16;"><?php echo $row->payment_method_name;?></td>
-    </tr>
-    <tr>
-        <td colspan="3" style="height:10px;"></td>
-    </tr>
-    <tr>
-        <td style="text-align: center; font-style: italic; font-weight: bold;">TGL KIRIM</td>
-        <td class="bold tdwidth2">:</td>
-        <td style="font-style: italic;"><?php echo date('d F Y', strtotime($row->shipping_date));;?></td>
-    </tr>
-</table>
-<table>
-        <tr>
-            <th class="test" rowspan="2" style="text-align: center; width: 200px">PESANAN</th>
-            <th class="test" colspan="2" rowspan="2" style="text-align: center; width: 50px">QTY</th>
-            <th class="test" style="text-align: center; width: 125px;">HARGA SUDAH</th>
-            <th rowspan="2"></th>
-            <th></th>
-            <!--<th>Option</th>-->
-        </tr>
-        <tr>
-            <th class="test" style="text-align: center">DIKALI</th>
-            <!--<th>Option</th>-->
-        </tr>
-        <?php
-        $totalPrice = 0;
-	    $no = 1;
-        $transaction->transactionCode = $row->invoice_code;
-        $stmtTrans = $transaction->index();
-        while ($rowTrans = $stmtTrans->fetch(PDO::FETCH_OBJ)){
-        $price = $rowTrans->item_price;
-        ?>
-        <tr>
-            <td class="test" style="background-color: <?php if($rowTrans->highlight_color != NULL){ echo $rowTrans->highlight_color;} else { echo 'white';} ?>;"><?php echo $rowTrans->item_name; ?></td>
-            <td class="test" style="background-color: <?php if($rowTrans->highlight_color != NULL){ echo $rowTrans->highlight_color;} else { echo 'white';} ?>;"><?php echo $rowTrans->item_qty; ?></td>
-            <td class="test" style="background-color: <?php if($rowTrans->highlight_color != NULL){ echo $rowTrans->highlight_color;} else { echo 'white';} ?>;"><?php echo $rowTrans->unit_name; ?></td>
-            <td class="test" style="background-color: <?php if($rowTrans->highlight_color != NULL){ echo $rowTrans->highlight_color;} else { echo 'white';} ?>;"><span>IDR</span> <?php
-			echo number_format($price,0,',','.'); ?></td>
-			<td style="font-style: italic; color: red;"><?php echo $rowTrans->description; ?></td>
-        </tr>
-		<?php
-			$totalPrice += $price;
-        } ?>
-        
-        <tr>
-            <td colspan="3" class="test">Grand Total</td>
-            <td class="test">IDR <?php echo number_format($totalPrice,0,',','.');?></td>
-			<td></td>
-        </tr>
-        </table>
-    <div>
-        <img src="https://s11.postimg.org/l8ajv99b7/footerfixks.jpg" width="525" height="110"/>
-    </div>
-</page>
-    <?php } ?>
+<form action="test.php" method="post">
+<select id="slc" name="test[]" multiple="multiple" style="width: 300px;">
+<option value="a">1</option>
+<option value="b">2</option>
+<option value="c">3</option>
+</select>
+<input type="text" id="sum" name="sum">
+<input type="submit" name="submit" value="submit">
+</form>
+
+
+<script type="text/javascript">
+$(document).ready(function(){
+    
+    $('#slc').select2();
+
+    $('#slc').change(function(){
+        var sum = 0;
+        $("#slc option:selected").each(function(){
+            sum += Number($(this).text());
+        });
+        $('#sum').val(sum);
+    }).trigger("change");
+
+
+
+});
+</script>
+
 </body>
 </html>
 <?php
-$filename = "invoice.pdf";
-$content = ob_get_clean();
-require_once('libs/html2pdf/html2pdf.class.php'); // arahkan ke folder html2pdf
-try
-{
-$html2pdf = new HTML2PDF('P','A5','en'); //setting ukuran kertas dan margin pada dokumen anda
-// $html2pdf->setModeDebug();
-$html2pdf->setDefaultFont('Helvetica');
-//$html2pdf->pdf->SetDisplayMode('fullpage');
-$html2pdf->writeHTML($content, isset($_GET['vuehtml']));
-$html2pdf->Output($filename);
+
+foreach($_POST['test'] as $key => $v){
+    echo $v;
 }
-catch(HTML2PDF_exception $e) { echo $e; }
-?>		
+
+?>

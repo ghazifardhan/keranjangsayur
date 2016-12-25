@@ -87,6 +87,13 @@
 							<li><a href="javascript://" id="export_invoice">Export Invoice</a></li>
                         </ul>
                     </li>
+
+                    <li role="presentation" class="dropdown"><a class="dropdown-toogle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expended="false" style="color: white;">Customer <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="javascript://" id="create_customer">Create Customer</a></li>
+                            <li><a href="javascript://" id="show_customer">Show Customer</a></li>
+                        </ul>
+                    </li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <!-- dropdown navbar login -->

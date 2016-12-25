@@ -412,4 +412,12 @@ class Invoice {
         
         return $stmt;
     }
+
+    public function getTotalInvoice(){
+    	$query = "SELECT invoice_id FROM " .$this->tableName . " WHERE invoice_date=:invoice_date";
+    	$stmt = $this->conn->prepare($query);
+    	$stmt->bindParam('invoice_date', $this->invoiceDate);
+    	$stmt->execute();
+    	return $stmt;
+    }
 }

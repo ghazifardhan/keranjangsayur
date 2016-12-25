@@ -8,6 +8,8 @@ $stmt = $invoice->detailPacking();
 $stmt2 = $invoice->getShipping();
 $row2 = $stmt2->fetch(PDO::FETCH_OBJ);
 $num = $stmt->rowCount();
+$stmt3 = $invoice->getTotalInvoice();
+$num3 = $stmt3->rowCount();
 $invDate = $invoice->invoiceDate;
 $invDateFormat = date('l, d F Y', strtotime($invDate));
 $shipDate = $row2->shipping;
@@ -147,14 +149,14 @@ if($num>0){
     $transaction->transactionCode = $rowInvoice->invoice_code;
     $stmtTrans = $transaction->index();
     $num = $stmtTrans->rowCount();
-    if($rowInvoice->voucher != 0){
-        $temp1 = 6;
-        $temp2 = 7;
-        $temp3 = 3;
-    } else {
+    if($rowInvoice->voucher == 0){
         $temp1 = 4;
         $temp2 = 5;
         $temp3 = 2;
+    } else {
+        $temp1 = 5;
+        $temp2 = 6;
+        $temp3 = 3;
     }
     ?>
     <tr>
@@ -172,7 +174,7 @@ if($num>0){
                 echo "<p class='centerp'>" . strtoupper($rowInvoice->description) . "</p>";
                 echo "<p class='centerp'>" . strtoupper($rowInvoice->payment_method_name) . "</p>";
                 echo "<p class='centerp'>" . strtoupper($rowInvoice->description_2) . "</p>";
-                if($rowInvoice->voucher != 0){
+                if($rowInvoice->voucher > 0){
                                 echo "POT/VOUCHER" . "<br/>";
                                 echo "<p class='boldp'>IDR " . number_format($rowInvoice->voucher,0,',','.') . "</p>";
                             } else { }
@@ -192,13 +194,12 @@ if($num>0){
          
         } 
         
-
         if($num <= 3){
             $y = 3 - $num;
             for($x=1;$x<=$y;$x++){
                 echo '<tr><td style="height: 10px; border-left: 0px;"></td><td style="height: 10px; border-left: 0px;"></td><td style="height: 10px; border-left: 0px;"></td><td style="height: 10px; border-left: 0px;"></td></tr>';
             }
-        }
+        } else { }
 
         $totalBeforeDeduction = $rowInvoice->total + $rowInvoice->voucher;
     ?>
@@ -207,7 +208,7 @@ if($num>0){
         <td style="height: 10px; font-weight: bold;" class="v-align t-center"><?php echo "IDR " . number_format($totalBeforeDeduction,0,',','.'); ?></td>
     </tr>
     <?php
-        if($rowInvoice->voucher !=0){
+        if($rowInvoice->voucher > 0){
         $totalAfterDeduction = $rowInvoice->total;
     ?>
     <tr>
@@ -215,12 +216,10 @@ if($num>0){
         <td style="height: 10px; font-weight: bold;" class="v-align t-center"><?php echo "IDR " . number_format($totalAfterDeduction,0,',','.'); ?></td>
     </tr>
     <?php
-        }
-    ?>
-    <?php
+        } else { }
     }
     ?>
-</table>
+    </table>
 		<?php
 		
 		$stmt3 = $invoice->getTransfer();
@@ -231,9 +230,13 @@ if($num>0){
 		?>
 		
 		</div>
-	<br/><br/>
+        <br/><br/>
 		<div id="margin">
 		<table border='0'>
+            <tr>
+                <td style="width: 150px;text-align:center;">Total Invoice</td>
+                <td style="width: 150px;text-align:center;"><?php echo $num3;?></td>
+            </tr>
 			<tr>
 				<td style="width: 150px;text-align:center;">Total Transfer</td>
 				<td style="width: 150px;text-align:right;"><?php echo "IDR " . number_format($row3->total,0,',','.'); ?></td>

@@ -799,6 +799,169 @@ $(document).ready(function(){
 		
 		// end of highlight
 	
+        // customer
+    
+        $('#create_customer').click(function(){
+            $('#loader-image').show();
+            changePageTitle('Create customer');
+            // first view
+            $('#page-content').fadeOut('fast', function(){
+                $('#page-content').load('/keranjangsayur/views/customer/form.php', function(){
+                $('#loader-image').hide();    
+                $('#page-content').fadeIn('fast');
+            });
+            });          
+        });
+    
+        $(document).on('submit', '#create_customer', function() {
+
+            $('#loader-image').show();
+                
+            $.post("/keranjangsayur/views/customer/create.php", $(this).serialize()).done(function(data){
+                var page = 1;
+                var search = "";
+                showCustomer(page, search);
+            });
+            
+            return false;
+            
+        });
+    
+        $(document).on('click', '.edit-btn-customer', function(){
+            var customer_id = $(this).closest('td').find('.customerId').text();
+            changePageTitle('Keranjang Sayur');
+            // show a loader image
+            $('#loader-image').show();
+            
+            $('#page-content').fadeOut('fast', function(){
+                $('#page-content').load('/keranjangsayur/views/customer/update-form.php?customer_id=' + customer_id, function(){
+                    // hide loader image
+                    $('#loader-image').hide(); 
+
+                    // fade in effect
+                    $('#page-content').fadeIn('fast');
+                });
+            });
+        });
+    
+        $(document).on('click', '.delete-btn-customer', function(){
+            if(confirm('Delete customer?')){
+            
+            var customer_id = $(this).closest('td').find('.customerId').text();
+            
+            // trigger the delete file
+            $.post("/keranjangsayur/views/customer/delete.php", { customer_id: customer_id }).done(function(data){
+                console.log(data);
+                
+                // show loader image
+                $('#loader-image').show();
+                
+                // reload customer list
+                var page = 1;
+                var search = "";
+                showCustomer(page, search);
+            });
+            }
+        });        
+        
+        $(document).on('submit', '#update_customer', function(){
+            // show a loader img
+            $('#loader-image').show();
+            
+            $.post("/keranjangsayur/views/customer/update.php", $(this).serialize()).done(function(data){
+                var page = 1;
+                var search = "";
+                showCustomer(page, search);
+            });
+            
+            return false;
+        });
+
+        // end of customer
+
+        // voucher
+
+        $(document).on('click', '#add_voucher', function(){
+            changePageTitle('Add Voucher');
+            var customer_id = $('#customerId').val();
+            // show a loader image
+            $('#loader-image').show();
+            
+            $('#page-content').fadeOut('fast', function(){
+                $('#page-content').load('/keranjangsayur/views/voucher/form.php?customer_id=' + customer_id, function(){
+                    // hide loader image
+                    $('#loader-image').hide(); 
+
+                    // fade in effect
+                    $('#page-content').fadeIn('fast');
+                });
+            });
+        });
+
+        $(document).on('click', '.edit-btn-voucher', function(){
+            var voucher_id = $(this).closest('td').find('.voucherId').text();
+            changePageTitle('Keranjang Sayur');
+            // show a loader image
+            $('#loader-image').show();
+            
+            $('#page-content').fadeOut('fast', function(){
+                $('#page-content').load('/keranjangsayur/views/voucher/update-form.php?voucher_id=' + voucher_id, function(){
+                    // hide loader image
+                    $('#loader-image').hide(); 
+
+                    // fade in effect
+                    $('#page-content').fadeIn('fast');
+                });
+            });
+        });
+    
+        $(document).on('click', '.delete-btn-voucher', function(){
+            if(confirm('Delete voucher?')){
+            
+            var voucher_id = $(this).closest('td').find('.voucherId').text();
+            var customer_id = $(this).closest('td').find('.customerId').text();
+            // trigger the delete file
+            $.post("/keranjangsayur/views/voucher/delete.php", { voucher_id: voucher_id }).done(function(data){
+                console.log(data);
+                
+                // show loader image
+                $('#loader-image').show();
+                
+                // reload voucher list
+                var page = 1;
+                var search = "";
+                showVoucher(customer_id);
+            });
+            }
+        });        
+        
+        $(document).on('submit', '#create_voucher', function() {
+
+            $('#loader-image').show();
+            var customer_id = $(this).closest('form').find('.customerId').text();
+            $.post("/keranjangsayur/views/voucher/create.php", $(this).serialize()).done(function(data){
+                showVoucher(customerId);
+            });
+            
+            return false;
+            
+        });
+
+        $(document).on('submit', '#update_voucher', function(){
+            // show a loader img
+            $('#loader-image').show();
+            
+            $.post("/keranjangsayur/views/voucher/update.php", $(this).serialize()).done(function(data){
+                var page = 1;
+                var search = "";
+                var customer_id = $('#customerId').val();
+                showVoucher(customer_id);
+            });
+            
+            return false;
+        });
+
+        // voucher
 		// paging
 		
 		// invoice
@@ -836,7 +999,16 @@ $(document).ready(function(){
 			showUser(page, search);
 		});
 	
+        // customer
+
+        $(document).on('click', '.btn-paging-customer', function(){
+            var page = $(this).closest('li').find('.paging-customer').text();
+            var search = "";
+            showCustomer(page, search);
+        });
+
 		// highlight
+
 		// category
 		$(document).on('click', '.btn-paging-highlight', function(){
 			var page = $(this).closest('li').find('.paging-highlight').text();
@@ -861,7 +1033,14 @@ $(document).ready(function(){
 			var stringReplace = search.replace(" ", "+");
 			showCategory(page, stringReplace);
 		});
-	
+	   
+        $(document).on('click', '.btn-search-customer', function(){
+            var page = 1;
+            var search = $('#search-box-customer').val();
+            var stringReplace = search.replace(" ", "+");
+            showCustomer(page, stringReplace);
+        });
+
 		$(document).on('click', '.btn-search-item', function(){
 			var page = 1;
 			var search = $('#search-box-item').val();
@@ -1059,6 +1238,32 @@ $(document).ready(function(){
                 });
             });
         }
+
+        function showCustomer(page, search){
+            // fade out effect first
+            $('#page-content').fadeOut('fast', function(){
+                $('#page-content').load('/keranjangsayur/views/customer/show.php?page=' + page + '&q=' + search, function(){
+                    // hide loader image
+                    $('#loader-image').hide(); 
+
+                    // fade in effect
+                    $('#page-content').fadeIn('fast');
+                });
+            });
+        }
+
+        function showVoucher(customer_id){
+            // fade out effect first
+            $('#page-content').fadeOut('fast', function(){
+                $('#page-content').load('/keranjangsayur/views/voucher/show.php?customer_id=' + customer_id, function(){
+                    // hide loader image
+                    $('#loader-image').hide(); 
+
+                    // fade in effect
+                    $('#page-content').fadeIn('fast');
+                });
+            });
+        }
 	
         $('#show_category').click(function(){
             $('#loader-image').show();
@@ -1131,7 +1336,22 @@ $(document).ready(function(){
 			var search = "";
 			showHighlight(page, search);
 		});
-	
+	   
+        $('#show_customer').click(function(){
+            $('#loader-image').show();
+            changePageTitle('Show customer');
+            var page = 1;
+            var search = "";
+            showCustomer(page, search);
+        });
+       
+        $(document).on('click', '#show_voucher', function(){
+            $('#loader-image').show();
+            changePageTitle('Show Voucher');
+            var customer_id = $('#cId').val();
+            showVoucher(customer_id);
+        });
+
 		function welcomePage(){
 		$('#page-content').fadeOut('fast', function(){
 			$('#page-content').load('/keranjangsayur/welcomepage.php', function(){

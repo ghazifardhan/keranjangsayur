@@ -19,5 +19,7 @@ $payment = new Payment($db);
 $setInvoice = new SetInvoice($db);
 $paging = new Paging($db);
 $highlight = new Highlight($db);
+$customer = new Customer($db);
+$voucher = new Voucher($db);
 
 ?>

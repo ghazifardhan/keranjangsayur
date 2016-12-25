@@ -105,6 +105,8 @@ $fillShip = array(
 $invoice->invoiceDate = $_GET['fromDate'];
 $stmt2 = $invoice->getShipping();
 $row2 = $stmt2->fetch(PDO::FETCH_OBJ);
+$stmt3 = $invoice->getTotalInvoice();
+$num3 = $stmt3->rowCount();
 $invDate = $invoice->invoiceDate;
 $invDateFormat = date('l, d F Y', strtotime($invDate));
 $shipDate = $row2->shipping;
@@ -295,16 +297,19 @@ $row3 = $stmt3->fetch(PDO::FETCH_OBJ);
 $stmt4 = $invoice->getCash();
 $row4 = $stmt4->fetch(PDO::FETCH_OBJ);
 
-$totalCash = $row + 2;
-$totalTransfer = $row + 3;
-$grandTotal = $row + 4;
+$totalInvoice = $row+2;
+$totalCash = $row + 3;
+$totalTransfer = $row + 4;
+$grandTotal = $row + 5;
 
-$objPHPExcel->getActiveSheet()->getStyle('A'.$totalCash.':B'.$grandTotal)->applyFromArray($border);
-$objPHPExcel->getActiveSheet()->getStyle('A'.$totalCash.':B'.$grandTotal)->applyFromArray($bold);
-$objPHPExcel->getActiveSheet()->getStyle('A'.$totalCash.':B'.$grandTotal)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+$objPHPExcel->getActiveSheet()->getStyle('A'.$totalInvoice.':B'.$grandTotal)->applyFromArray($border);
+$objPHPExcel->getActiveSheet()->getStyle('A'.$totalInvoice.':B'.$grandTotal)->applyFromArray($bold);
+$objPHPExcel->getActiveSheet()->getStyle('A'.$totalInvoice.':B'.$grandTotal)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
 $objPHPExcel->getActiveSheet()->getStyle('B'.$totalCash.':B'.$grandTotal)->getNumberFormat()->setFormatCode('_("IDR"* #,##0.00_);_("IDR"* \(#,##0.00\);_("IDR"* "-"??_);_(@_)');
 
 $objPHPExcel->setActiveSheetIndex(0)
+                ->setCellValue('A'.$totalInvoice, 'TOTAL INVOICE')
+                ->setCellValue('B'.$totalInvoice, $num3)
                 ->setCellValue('A'.$totalCash, 'TOTAL CASH')
                 ->setCellValue('B'.$totalCash, $row4->total)
                 ->setCellValue('A'.$totalTransfer, 'TOTAL TRANSFER')
