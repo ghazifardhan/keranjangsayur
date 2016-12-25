@@ -67,9 +67,9 @@ class Voucher {
 	}
 
 	public function showOne(){
-		$query = "SELECT * FROM " . $this->tableName . " WHERE voucher_id = ?";
+		$query = "SELECT * FROM " . $this->tableName . " WHERE voucher_id=:voucher_id";
 		$stmt = $this->conn->prepare($query);
-		$stmt->bindParam(1, $this->voucherId);
+		$stmt->bindParam(':voucher_id', $this->voucherId);
 		$stmt->execute();
 
 		$row = $stmt->fetch(PDO::FETCH_OBJ);

@@ -6,7 +6,7 @@
                 <td>Voucher</td>
                 <td><input type="number" name="voucherValue" class='form-control'></td>
             </tr>
-            <input type="text" name="customerId" value="<?php echo $customerId;?>">
+            <input type="hidden" value="<?php echo $customerId;?>" name="customerId" id="customerId">
             <tr>
                 <td></td>
                 <td><div class="customerId display-none"><?php echo $customerId; ?></div><button type="submit" name="submit" class='btn btn-primary'><span class='glyphicon glyphicon-plus'></span> Submit</button></td>

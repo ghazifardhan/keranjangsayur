@@ -900,12 +900,13 @@ $(document).ready(function(){
 
         $(document).on('click', '.edit-btn-voucher', function(){
             var voucher_id = $(this).closest('td').find('.voucherId').text();
+            var customer_id = $(this).closest('td').find('.customerId').text();
             changePageTitle('Keranjang Sayur');
             // show a loader image
             $('#loader-image').show();
             
             $('#page-content').fadeOut('fast', function(){
-                $('#page-content').load('/keranjangsayur/views/voucher/update-form.php?voucher_id=' + voucher_id, function(){
+                $('#page-content').load('/keranjangsayur/views/voucher/update-form.php?voucher_id=' + voucher_id + '&customer_id=' + customer_id, function(){
                     // hide loader image
                     $('#loader-image').hide(); 
 
@@ -938,9 +939,10 @@ $(document).ready(function(){
         $(document).on('submit', '#create_voucher', function() {
 
             $('#loader-image').show();
-            var customer_id = $(this).closest('form').find('.customerId').text();
+
             $.post("/keranjangsayur/views/voucher/create.php", $(this).serialize()).done(function(data){
-                showVoucher(customerId);
+                var customer_id = $('#customerId').val();
+                showVoucher(customer_id);
             });
             
             return false;

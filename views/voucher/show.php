@@ -8,9 +8,9 @@ $voucher->customerId = $customerId;
 $stmt = $voucher->index();
 // check if more than 0 record found in voucher table
 ?>
-
+<br/>
 <button id="add_voucher" class="btn btn-primary">Add Voucher</button>
-<input type="text" id="customerId" value="<?php echo $customerId;?>">
+<input type="hidden" id="customerId" value="<?php echo $customerId;?>">
     <h1>Voucher</h1>
     <br/>
     <table class="table table-bordered table-hover table-striped table-condensed">

@@ -1,10 +1,12 @@
 <h1>Update Voucher</h1>
-<?php 
+<?php
+error_reporting(0);
+
+include '../../models/Include.php';
+
 $customerId = $_GET['customer_id'];
 
-$voucherId = isset($_GET['customer_id']) ? $_GET['customer_id'] : die('ERROR: customer ID not found');
-
-$voucher->voucherId = $voucherId;
+$voucher->voucherId = $_GET['voucher_id'];
 
 $voucher->showOne();
 
@@ -15,10 +17,11 @@ $voucher->showOne();
                 <td>Voucher</td>
                 <td><input type="number" name="voucherValue" class='form-control' value="<?php echo $voucher->voucherValue; ?>"></td>
             </tr>
-            <input type="text" value="<?php echo $voucherId;?>" name="voucherId" id="voucherId">
+            <input type="hidden" value="<?php echo $voucher->voucherId;?>" name="voucherId" id="voucherId">
+            <input type="hidden" value="<?php echo $customerId;?>" name="customerId" id="customerId">
             <tr>
                 <td></td>
-                <td><button type="submit" name="submit" class='btn btn-primary'><span class='glyphicon glyphicon-plus'></span> Submit</button></td>
+                <td><div class="customerId display-none"><?php echo $customerId; ?></div><button type="submit" name="submit" class='btn btn-primary'><span class='glyphicon glyphicon-plus'></span> Submit</button></td>
             </tr>       
         </table>    
     </form>
