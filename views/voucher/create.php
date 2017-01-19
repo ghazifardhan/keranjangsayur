@@ -12,7 +12,7 @@
     // set values
     $voucher->customerId = $_POST['customerId'];
     $voucher->voucherValue = $_POST['voucherValue'];
-    $voucher->status = '0';
+    $voucher->is_used = '0';
 
     // create voucher
     $voucher->create();

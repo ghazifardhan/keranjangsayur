@@ -29,7 +29,8 @@ $invoiceCode = $row->sku . "/" . $setInvoice->invoiceCodeOne . "/" . $setInvoice
 			</tr>
 			<tr>
 				<td>Customer Name</td>
-				<td><input type="text" name="customerName" class="form-control" required/></td>
+				<td><input type="text" name="customerName" class="form-control customerName" required/>
+				<input type="text" name="idCustomerName" class="form-control idCustomerName"/></td>
 			</tr>
 			<tr>
 				<td>Customer Phone</td>
@@ -51,14 +52,13 @@ $invoiceCode = $row->sku . "/" . $setInvoice->invoiceCodeOne . "/" . $setInvoice
 				<td>Payment Method</td>
 				<td>
                 <select name="paymentMethod" class="form-control" required>
-                    <?php 
-                    
-                    $stmt = $payment->index();
-                    while($row = $stmt->fetch(PDO::FETCH_OBJ)){
-                    
-                    ?>
-                    <option value="<?php echo $row->payment_method_id;?>"><?php echo $row->payment_method_name;?></option>
                     <?php
+	                    $stmt = $payment->index();
+	                    while($row = $stmt->fetch(PDO::FETCH_OBJ)){
+	                    
+	                    ?>
+	                    <option value="<?php echo $row->payment_method_id;?>"><?php echo $row->payment_method_name;?></option>
+	                    <?php
                     }
                     ?>
                 </select>
@@ -70,7 +70,10 @@ $invoiceCode = $row->sku . "/" . $setInvoice->invoiceCodeOne . "/" . $setInvoice
 			</tr>
             <tr>
 				<td>Potongan/Voucher</td>
-				<td><input type="number" name="voucher" class="form-control number"/></td>
+				<td><select id="voucherChooser" data-placeholder="Voucher" name="voucherChooser" class="form-control chosen-select">
+                    </select>
+                    <input type="number" id="voucherResult" name="voucher" class="form-control number"/>
+                    </td>
 			</tr>
 			<tr>
 				<td>Description</td>

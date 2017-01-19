@@ -9,7 +9,7 @@ class Database{
     private $password = "navara";
     */
     private $host = "localhost";
-    private $dbName = "nsproject";
+    private $dbName = "keranjangsayur";
     private $username = "root";
     private $password = "";
     public $conn;

@@ -27,8 +27,17 @@ $stmt = $voucher->index();
         ?>
         <tr>
             <td><?php echo $row->voucher_value; ?></a></td>
-            <td><?php echo $row->status; ?></td>
-            <td><?php echo $row->invoice_id; ?></td>
+            <td><?php 
+            if($row->status == 0){
+                echo "Not used";
+            } else {
+                echo "Used";
+            } ?></td>
+            <td><?php if($row->invoice_id == 0){
+                echo "Not used";
+            } else {
+                echo "Used";
+            } ?></td>
             <td>
             <div class="voucherId display-none"><?php echo $row->voucher_id; ?></div>
             <div class="customerId display-none"><?php echo $row->customer_id; ?></div>

@@ -280,6 +280,8 @@ $(document).ready(function(){
             // first view
             $('#page-content').fadeOut('fast', function(){
                 $('#page-content').load('/keranjangsayur/views/transaction/form_invoice.php', function(){
+                getDataCustomer();
+                getDataVoucher();
                 $('#loader-image').hide();    
                 $('#page-content').fadeIn('fast');
             });
@@ -388,7 +390,41 @@ $(document).ready(function(){
         });
         }
         */
-    
+
+        function getDataCustomer(){
+            $( ".customerName" ).autocomplete({
+              source: '/keranjangsayur/json/jsoncustomer.php',
+              mesages: {
+                noResults: ''
+              },
+              select: function(event, ui){
+                $('.customerName').html(ui.item.name);
+                $('.idCustomerName').val(ui.item.id);
+              }
+            });
+        }
+
+        function getDataVoucher(){
+            $('.idCustomerName').change(function(){
+                var x = $(this).val();
+                alert(x);
+            });
+            $.ajax({ 
+                type: 'GET', 
+                url: '/keranjangsayur/json/jsonvoucher.php',
+                data: {customer_id: 1},
+                dataType: 'json',
+                success: function (data) { 
+                    $('#voucherChooser').empty();
+                    $('#voucherChooser').append($('<option>').text(""));
+                    $.each(data, function(index, element) {
+                        $('#voucherChooser').append($('<option>').text(element.voucher_value).attr('value', element.vaucher_id));
+                    });
+                $('.chosen-select').chosen({width : "300px"});
+                }
+            });
+        }
+
         function getData(x){
             $.ajax({ 
             type: 'GET', 
@@ -1094,9 +1130,7 @@ $(document).ready(function(){
                 $('#page-content').load('/keranjangsayur/views/transaction/form_invoice.php', function(){
                     // hide loader image
 					$('.chosen-select').chosen({width : "300px"});
-                    $('#loader-image').hide(); 
-
-                    // fade in effect
+                    $('#loader-image').hide();
                     $('#page-content').fadeIn('fast');
                 });
             });

@@ -16,6 +16,7 @@
         <link rel="shortcut icon" href="/keranjangsayur/images/favicon.ico" type="image/x-icon">
         <link href="/keranjangsayur/libs/js/bootstrap/dist/css/bootstrap.css" rel="stylesheet" media="screen" />
         <link href="/keranjangsayur/libs/js/bootstrap/dist/css/bootstrap-chosen.css" rel="stylesheet" />
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
         <style>
             .navbar-inverse {
                 background-color: #88AC25;
@@ -130,5 +131,6 @@
 <!-- bootstrap JavaScript -->
 <script src="/keranjangsayur/libs/js/bootstrap/dist/js/bootstrap.min.js"></script>
 <script src="/keranjangsayur/libs/js/script.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 </body>
 </html>

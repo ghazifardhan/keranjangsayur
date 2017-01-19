@@ -8,7 +8,7 @@ class Voucher {
 	public $voucherId;
 	public $customerId;
 	public $voucherValue;
-	public $status;
+	public $is_used;
 	public $invoiceId;
 
 	public function __construct($db){
@@ -16,11 +16,11 @@ class Voucher {
 	}
 
 	public function create(){
-		$query = "INSERT INTO " .$this->tableName . " SET customer_id=:customerId, voucher_value=:voucherValue, status=:status";
+		$query = "INSERT INTO " .$this->tableName . " SET customer_id=:customerId, voucher_value=:voucherValue, is_used=:is_used";
 		$stmt = $this->conn->prepare($query);
 		$stmt->bindParam(':customerId', $this->customerId);
 		$stmt->bindParam(':voucherValue', $this->voucherValue);
-		$stmt->bindParam(':status', $this->status);
+		$stmt->bindParam(':is_used', $this->is_used);
 		// execute query
         if($stmt->execute()){
             return true;
@@ -75,7 +75,7 @@ class Voucher {
 		$row = $stmt->fetch(PDO::FETCH_OBJ);
 
 		$this->customerId = $row->customerId;
-		$this->status = $row->status;
+		$this->is_used = $row->is_used;
 		$this->voucherValue = $row->voucher_value;
 	}
 
