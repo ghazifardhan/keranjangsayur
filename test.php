@@ -76,9 +76,9 @@ $(document).ready(function(){
                 dataType: 'json',
                 success: function (data) { 
                     $('#voucherChooser').empty();
-                    $('#voucherChooser').append($('<option>').text(""));
+                    $('#voucherChooser').html($('<option>').text(""));
                     $.each(data, function(index, element) {
-                        $('#voucherChooser').append($('<option>').text(element.voucher_value).attr('value', element.vaucher_id));
+                        $('#voucherChooser').html($('<option>').text(element.voucher_value).attr('value', element.vaucher_id));
                     });
                 $('.chosen-select').chosen({width : "300px"});
                 }
