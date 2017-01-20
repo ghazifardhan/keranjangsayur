@@ -17,6 +17,7 @@
         <link href="/keranjangsayur/libs/js/bootstrap/dist/css/bootstrap.css" rel="stylesheet" media="screen" />
         <link href="/keranjangsayur/libs/js/bootstrap/dist/css/bootstrap-chosen.css" rel="stylesheet" />
         <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
         <style>
             .navbar-inverse {
                 background-color: #88AC25;
@@ -127,6 +128,7 @@
 <script src="/keranjangsayur/libs/js/jquery.js"></script>
 <script src="/keranjangsayur/libs/js/chosen/chosen.jquery.js"></script>
 <script src="/keranjangsayur/libs/js/chosen/chosen.jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
  
 <!-- bootstrap JavaScript -->
 <script src="/keranjangsayur/libs/js/bootstrap/dist/js/bootstrap.min.js"></script>

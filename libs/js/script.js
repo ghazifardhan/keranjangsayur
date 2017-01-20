@@ -280,7 +280,6 @@ $(document).ready(function(){
             // first view
             $('#page-content').fadeOut('fast', function(){
                 $('#page-content').load('/keranjangsayur/views/transaction/form_invoice.php', function(){
-                getDataCustomer();
                 getDataVoucher();
                 $('#loader-image').hide();    
                 $('#page-content').fadeIn('fast');
@@ -391,38 +390,38 @@ $(document).ready(function(){
         }
         */
 
-        function getDataCustomer(){
-            $( ".customerName" ).autocomplete({
-              source: '/keranjangsayur/json/jsoncustomer.php',
-              mesages: {
-                noResults: ''
-              },
-              select: function(event, ui){
-                $('.customerName').html(ui.item.name);
-                $('.idCustomerName').val(ui.item.id);
-              }
-            });
-        }
-
         function getDataVoucher(){
-            $('.idCustomerName').change(function(){
-                var x = $(this).val();
-                alert(x);
-            });
-            $.ajax({ 
-                type: 'GET', 
-                url: '/keranjangsayur/json/jsonvoucher.php',
-                data: {customer_id: 1},
-                dataType: 'json',
-                success: function (data) { 
-                    $('#voucherChooser').empty();
-                    $('#voucherChooser').append($('<option>').text(""));
-                    $.each(data, function(index, element) {
-                        $('#voucherChooser').append($('<option>').text(element.voucher_value).attr('value', element.vaucher_id));
-                    });
-                $('.chosen-select').chosen({width : "300px"});
+            $(".customerName").autocomplete({
+                  source: '/keranjangsayur/json/jsoncustomer.php',
+                  select: function(event, ui){
+                    if(ui.item)
+                    {
+                        $.ajax({
+                            type: "GET",
+                            url: "/keranjangsayur/json/jsonvoucher.php",
+                            data: {customer_id:ui.item.id},
+                            success: function(d){
+                                $('#voucherChooser').empty();
+                                $('#voucherChooser').append($('<option>').text(""));
+                                $.each(d, function(i, a){
+                                    $('#voucherChooser').append($('<option>').text(a.voucher_value).attr('value', a.voucher_id));
+                                    console.log(a.voucher_id);
+                                });
+                            }
+                        });
+                    }
                 }
             });
+
+            $('#voucherChooser').select2();
+
+            $('#voucherChooser').change(function(){
+                var sum = 0;
+                $("#voucherChooser option:selected").each(function(){
+                    sum += Number($(this).text());
+                });
+                $('#voucherResult').val(sum);
+            }).trigger("change");
         }
 
         function getData(x){

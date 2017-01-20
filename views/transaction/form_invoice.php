@@ -29,8 +29,7 @@ $invoiceCode = $row->sku . "/" . $setInvoice->invoiceCodeOne . "/" . $setInvoice
 			</tr>
 			<tr>
 				<td>Customer Name</td>
-				<td><input type="text" name="customerName" class="form-control customerName" required/>
-				<input type="text" name="idCustomerName" class="form-control idCustomerName"/></td>
+				<td><input type="text" name="customerName" class="form-control customerName" required/></td>
 			</tr>
 			<tr>
 				<td>Customer Phone</td>
@@ -70,9 +69,10 @@ $invoiceCode = $row->sku . "/" . $setInvoice->invoiceCodeOne . "/" . $setInvoice
 			</tr>
             <tr>
 				<td>Potongan/Voucher</td>
-				<td><select id="voucherChooser" data-placeholder="Voucher" name="voucherChooser" class="form-control chosen-select">
+				<td><select id="voucherChooser" data-placeholder="Voucher" name="voucherChooser" class="form-control" multiple="multiple" style="width: 300px">
                     </select>
-                    <input type="number" id="voucherResult" name="voucher" class="form-control number"/>
+
+                    <input type="number" id="voucherResult" name="voucher" class="form-control number" readonly="readonly"  style="width: 300px"/>
                     </td>
 			</tr>
 			<tr>
